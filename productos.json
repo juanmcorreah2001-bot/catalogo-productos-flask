@@ -1,0 +1,107 @@
+[
+  {
+    "id": 108,
+    "nombre": "Monitor UltraWide 29 pulgadas",
+    "categoria": "Monitores",
+    "precio": 279.99,
+    "stock": 12
+  },
+  {
+    "id": 103,
+    "nombre": "Teclado Mecánico RGB Switch Red",
+    "categoria": "Periféricos",
+    "precio": 64.50,
+    "stock": 25
+  },
+  {
+    "id": 115,
+    "nombre": "SSD NVMe 1TB PCIe 4.0",
+    "categoria": "Almacenamiento",
+    "precio": 89.90,
+    "stock": 30
+  },
+  {
+    "id": 101,
+    "nombre": "Laptop Lenovo ThinkPad E14",
+    "categoria": "Computadoras",
+    "precio": 849.00,
+    "stock": 8
+  },
+  {
+    "id": 112,
+    "nombre": "Mouse Inalámbrico Ergonómico",
+    "categoria": "Periféricos",
+    "precio": 34.99,
+    "stock": 40
+  },
+  {
+    "id": 105,
+    "nombre": "Audífonos Studio Over-Ear",
+    "categoria": "Audio",
+    "precio": 119.00,
+    "stock": 18
+  },
+  {
+    "id": 110,
+    "nombre": "Webcam Full HD 1080p",
+    "categoria": "Accesorios",
+    "precio": 49.95,
+    "stock": 22
+  },
+  {
+    "id": 102,
+    "nombre": "Memoria RAM DDR4 16GB 3200MHz",
+    "categoria": "Componentes",
+    "precio": 42.00,
+    "stock": 35
+  },
+  {
+    "id": 114,
+    "nombre": "Hub USB-C 7 en 1 HDMI 4K",
+    "categoria": "Accesorios",
+    "precio": 29.50,
+    "stock": 50
+  },
+  {
+    "id": 107,
+    "nombre": "Silla Ergonómica de Oficina",
+    "categoria": "Mobiliario",
+    "precio": 215.00,
+    "stock": 9
+  },
+  {
+    "id": 104,
+    "nombre": "Micrófono Condensador USB",
+    "categoria": "Audio",
+    "precio": 75.00,
+    "stock": 16
+  },
+  {
+    "id": 111,
+    "nombre": "Router Wi-Fi 6 Doble Banda",
+    "categoria": "Redes",
+    "precio": 95.00,
+    "stock": 14
+  },
+  {
+    "id": 106,
+    "nombre": "Disco Duro Externo 2TB USB 3.0",
+    "categoria": "Almacenamiento",
+    "precio": 68.00,
+    "stock": 27
+  },
+  {
+    "id": 113,
+    "nombre": "Base Refrigerante para Laptop",
+    "categoria": "Accesorios",
+    "precio": 24.99,
+    "stock": 33
+  },
+  {
+    "id": 109,
+    "nombre": "Fuente de Poder 650W 80+ Bronze",
+    "categoria": "Componentes",
+    "precio": 62.50,
+    "stock": 19
+  }
+]

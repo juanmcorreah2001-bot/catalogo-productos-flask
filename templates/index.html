@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo de Productos - LPII</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --surface-alt: #273449;
+      --border: #334155;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --success: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 24px 16px 48px;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .badge {
+      background: rgba(59, 130, 246, 0.15);
+      color: #93c5fd;
+      border: 1px solid rgba(59, 130, 246, 0.35);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .card h2 {
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+      color: #e2e8f0;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    button {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+
+    button:hover {
+      background: var(--primary-hover);
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    button.active {
+      background: var(--success);
+    }
+
+    button.secondary {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+    }
+
+    button.secondary:hover {
+      background: #334155;
+    }
+
+    .search-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    input[type="number"] {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.95rem;
+      width: 220px;
+    }
+
+    input[type="number"]:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .status-box {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      display: none;
+    }
+
+    .status-box.ok {
+      display: block;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #a7f3d0;
+    }
+
+    .status-box.error {
+      display: block;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #fecaca;
+    }
+
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--surface);
+      min-width: 560px;
+    }
+
+    th, td {
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background: var(--surface-alt);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: rgba(59, 130, 246, 0.08);
+    }
+
+    .num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .meta {
+      margin-top: 10px;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .metric {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .metric-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .metric-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    .bars {
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+    }
+
+    .bar-label {
+      width: 90px;
+      color: var(--muted);
+    }
+
+    .bar-track {
+      flex: 1;
+      height: 14px;
+      background: var(--bg);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+
+    .bar-qs { background: var(--success); }
+    .bar-bs { background: var(--warning); }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 1.4rem; }
+      input[type="number"] { width: 100%; }
+      button { flex: 1 1 auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Catálogo Dinámico de Productos</h1>
+      <span class="badge">LPII · Flask + Quicksort + Búsqueda Binaria</span>
+    </header>
+
+    <!-- Sección 1: Búsqueda Binaria -->
+    <section class="card">
+      <h2>Búsqueda Binaria por ID</h2>
+      <div class="search-row">
+        <input type="number" id="input-id" placeholder="Ej: 101 a 115" min="1">
+        <button type="button" id="btn-buscar">Buscar por ID</button>
+      </div>
+      <div id="resultado-busqueda" class="status-box" role="status" aria-live="polite"></div>
+    </section>
+
+    <!-- Sección 2: Ordenamiento con Quicksort y Tabla -->
+    <section class="card">
+      <h2>Ordenamiento con Quicksort (API REST)</h2>
+      <div class="controls" id="controles-orden">
+        <button type="button" data-campo="precio" data-orden="asc">Menor Precio</button>
+        <button type="button" data-campo="precio" data-orden="desc">Mayor Precio</button>
+        <button type="button" data-campo="nombre" data-orden="asc">Nombre (A-Z)</button>
+        <button type="button" data-campo="nombre" data-orden="desc">Nombre (Z-A)</button>
+        <button type="button" data-campo="id" data-orden="asc">ID (Asc)</button>
+      </div>
+
+      <div class="table-wrapper" style="margin-top: 16px;">
+        <table id="tabla">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Producto</th>
+              <th>Categoría</th>
+              <th class="num">Precio</th>
+              <th class="num">Stock</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="meta" id="estado-tabla">Cargando productos...</p>
+    </section>
+
+    <!-- Sección 3: Benchmark Quicksort vs Burbuja -->
+    <section class="card">
+      <h2>Benchmark: Quicksort vs. Burbuja (1.000 elementos)</h2>
+      <button type="button" class="secondary" id="btn-benchmark">Ejecutar Benchmark (1.000 elementos)</button>
+      <div id="resultado-benchmark" style="display: none;">
+        <div class="metrics-grid">
+          <div class="metric">
+            <div class="metric-label">Quicksort</div>
+            <div class="metric-value" id="qs-ms">-</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Burbuja</div>
+            <div class="metric-value" id="bs-ms">-</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Aceleración</div>
+            <div class="metric-value" id="speedup">-</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Verificación</div>
+            <div class="metric-value" id="check-ok">-</div>
+          </div>
+        </div>
+        <div class="bars">
+          <div class="bar-row">
+            <span class="bar-label">Quicksort</span>
+            <div class="bar-track"><div class="bar-fill bar-qs" id="bar-qs" style="width: 0%;"></div></div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Burbuja</span>
+            <div class="bar-track"><div class="bar-fill bar-bs" id="bar-bs" style="width: 0%;"></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const tbody = document.querySelector("#tabla tbody");
+    const estadoTabla = document.getElementById("estado-tabla");
+    const controlesOrden = document.getElementById("controles-orden");
+    const inputId = document.getElementById("input-id");
+    const btnBuscar = document.getElementById("btn-buscar");
+    const boxBusqueda = document.getElementById("resultado-busqueda");
+    const btnBenchmark = document.getElementById("btn-benchmark");
+    const boxBenchmark = document.getElementById("resultado-benchmark");
+
+    function marcarBotonActivo(campo, orden) {
+      controlesOrden.querySelectorAll("button").forEach((btn) => {
+        const activo = btn.dataset.campo === campo && btn.dataset.orden === orden;
+        btn.classList.toggle("active", activo);
+      });
+    }
+
+    async function cargar(campo, orden) {
+      marcarBotonActivo(campo, orden);
+      estadoTabla.textContent = "Consultando API...";
+
+      try {
+        const res = await fetch(`/api/productos?sort_by=${encodeURIComponent(campo)}&order=${encodeURIComponent(orden)}`);
+        if (!res.ok) throw new Error("Error al consultar los productos.");
+        const data = await res.json();
+
+        tbody.innerHTML = data.map((p) => `
+          <tr>
+            <td>${p.id}</td>
+            <td>${p.nombre}</td>
+            <td>${p.categoria}</td>
+            <td class="num">$${Number(p.precio).toFixed(2)}</td>
+            <td class="num">${p.stock}</td>
+          </tr>
+        `).join("");
+
+        estadoTabla.textContent = `Mostrando ${data.length} productos ordenados por "${campo}" (${orden}).`;
+      } catch (err) {
+        estadoTabla.textContent = `Error: ${err.message}`;
+      }
+    }
+
+    async function buscarPorId() {
+      const valor = inputId.value.trim();
+      if (!valor) {
+        boxBusqueda.className = "status-box error";
+        boxBusqueda.textContent = "Ingresa un ID numérico para realizar la búsqueda binaria.";
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/productos/buscar?id=${encodeURIComponent(valor)}`);
+        const data = await res.json();
+
+        if (res.ok && data.encontrado) {
+          const p = data.producto;
+          boxBusqueda.className = "status-box ok";
+          boxBusqueda.innerHTML = `
+            <strong>Producto encontrado:</strong> #${p.id} — ${p.nombre} (${p.categoria}) ·
+            <strong>$${Number(p.precio).toFixed(2)}</strong> · Stock: ${p.stock}<br>
+            <small>Comparaciones realizadas: ${data.comparaciones} · ${data.precondicion_ordenamiento}.</small>
+          `;
+        } else {
+          boxBusqueda.className = "status-box error";
+          boxBusqueda.textContent = data.mensaje || data.error || "Producto no encontrado.";
+        }
+      } catch (err) {
+        boxBusqueda.className = "status-box error";
+        boxBusqueda.textContent = "No se pudo conectar con el servidor.";
+      }
+    }
+
+    async function ejecutarBenchmark() {
+      btnBenchmark.disabled = true;
+      btnBenchmark.textContent = "Ejecutando benchmark...";
+
+      try {
+        const res = await fetch("/api/benchmark?n=1000");
+        const data = await res.json();
+
+        document.getElementById("qs-ms").textContent = `${data.quicksort_ms} ms`;
+        document.getElementById("bs-ms").textContent = `${data.burbuja_ms} ms`;
+        document.getElementById("speedup").textContent = `${data.aceleracion_x}x más rápido`;
+        document.getElementById("check-ok").textContent = data.resultados_identicos ? "Idénticos" : "Diferentes";
+
+        const maxMs = Math.max(data.quicksort_ms, data.burbuja_ms, 0.001);
+        document.getElementById("bar-qs").style.width = `${Math.max((data.quicksort_ms / maxMs) * 100, 2)}%`;
+        document.getElementById("bar-bs").style.width = `${Math.max((data.burbuja_ms / maxMs) * 100, 2)}%`;
+
+        boxBenchmark.style.display = "block";
+      } catch (err) {
+        alert("Error al ejecutar el benchmark.");
+      } finally {
+        btnBenchmark.disabled = false;
+        btnBenchmark.textContent = "Ejecutar Benchmark (1.000 elementos)";
+      }
+    }
+
+    controlesOrden.addEventListener("click", (e) => {
+      const btn = e.target.closest("button");
+      if (!btn) return;
+      cargar(btn.dataset.campo, btn.dataset.orden);
+    });
+
+    btnBuscar.addEventListener("click", buscarPorId);
+    inputId.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") buscarPorId();
+    });
+    btnBenchmark.addEventListener("click", ejecutarBenchmark);
+
+    cargar("precio", "asc");
+  </script>
+</body>
+</html>
